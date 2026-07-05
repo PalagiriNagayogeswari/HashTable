@@ -1,4 +1,3 @@
-
 //created a class MyMapNode to implement hashtable using linkedlist.
 class MyMapNode {
 
@@ -12,6 +11,8 @@ class MyMapNode {
         this.next = null;
     }
 }
+
+
 
 //created MyHashTable to implement the main functionality
 class MyHashTable {
@@ -53,6 +54,35 @@ class MyHashTable {
         curr.next = new MyMapNode(key, 1);
     }
 
+    //remove function to remove a word from the hashtable.
+    public void remove(String key) {
+
+        int index = getIndex(key);
+
+        MyMapNode curr = table[index];
+        MyMapNode prev = null;
+
+        while (curr != null) {
+
+            if (curr.key.equals(key)) {
+
+                //If the word is the first node in the bucket.
+                if (prev == null) {
+                    table[index] = curr.next;
+                }
+                //Otherwise remove the node from the linked list.
+                else {
+                    prev.next = curr.next;
+                }
+
+                return;
+            }
+
+            prev = curr;
+            curr = curr.next;
+        }
+    }
+
     //printing the hashtable.
     public void print() {
 
@@ -75,6 +105,8 @@ class MyHashTable {
     }
 }
 
+
+
 //main class to implement the hashtable completely.
 public class HashTable {
 
@@ -95,6 +127,12 @@ public class HashTable {
             table.add(word);
         }
 
+        System.out.println("Before Removing:\n");
+        table.print();
+
+        table.remove("avoidable");
+
+        System.out.println("After Removing 'avoidable':\n");
         table.print();
     }
 }

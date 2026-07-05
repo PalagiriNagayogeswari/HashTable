@@ -13,19 +13,29 @@ class MyMapNode {
     }
 }
 
-//MyHashTable class to implement hashtable.
+//created MyHashTable to implement the main functionality
 class MyHashTable {
 
-    MyMapNode head;
+    private static final int SIZE = 10;
 
+    MyMapNode[] table = new MyMapNode[SIZE]; //created an array of linkedlist to implement hashtable.
+
+    //getting the index of current key using hashcode function.
+    private int getIndex(String key) {
+        return Math.abs(key.hashCode()) % SIZE;
+    }
+
+    //add function to add a key to the hashtable.
     public void add(String key) {
 
-        if (head == null) {
-            head = new MyMapNode(key, 1);
+        int index = getIndex(key);
+
+        if (table[index] == null) {
+            table[index] = new MyMapNode(key, 1);
             return;
         }
 
-        MyMapNode curr = head;
+        MyMapNode curr = table[index];
 
         while (curr != null) {
 
@@ -43,37 +53,48 @@ class MyHashTable {
         curr.next = new MyMapNode(key, 1);
     }
 
+    //printing the hashtable.
     public void print() {
 
-        if (head == null) {
-            System.out.println("Table is Empty");
-            return;
-        }
+        for (int i = 0; i < SIZE; i++) {
 
-        MyMapNode curr = head;
+            if (table[i] != null) {
 
-        while (curr != null) {
-            System.out.println(curr.key + " -> " + curr.value);
-            curr = curr.next;
+                System.out.println("Bucket " + i);
+
+                MyMapNode curr = table[i];
+
+                while (curr != null) {
+                    System.out.println(curr.key + " -> " + curr.value);
+                    curr = curr.next;
+                }
+
+                System.out.println();
+            }
         }
     }
 }
 
-//Main class implementing the hashtable 
+//main class to implement the hashtable completely.
 public class HashTable {
 
     public static void main(String[] args) {
 
-        String sentence = "To be or not to be";
+        String paragraph =
+                "Paranoids are not paranoid because they are paranoid " +
+                        "but because they keep putting themselves deliberately " +
+                        "into paranoid avoidable situations";
 
-        String[] words = sentence.split(" ");
+        paragraph = paragraph.toLowerCase();
 
-        MyHashTable hashTable = new MyHashTable();
+        String[] words = paragraph.split(" ");
+
+        MyHashTable table = new MyHashTable();
 
         for (String word : words) {
-            hashTable.add(word);
+            table.add(word);
         }
 
-        hashTable.print();
+        table.print();
     }
 }
